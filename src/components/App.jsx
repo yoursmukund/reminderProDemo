@@ -4,7 +4,14 @@ import { bindActionCreators } from 'redux';
 import action from '../actions';
 import ReminderList  from './ReminderList.jsx';
 import "./App.css";
-
+import {
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from 'react-router-dom';
+import Signup from './Signup.jsx';
+import Signin from './Signin.jsx';
 
 class App extends Component{
 
@@ -15,7 +22,6 @@ class App extends Component{
 			addReminder: true,
 			id: ''
 		}
-
 	}
 
 	addReminder(){
@@ -45,52 +51,66 @@ class App extends Component{
 
 	resetToAddReminder(){
 		this.setState({addReminder:true}, () => {
-			console.log("Current state is ", this.state.addReminder);
 		});
 	}
 
 
+
 	render(){
 
-		let button = null;
-		if(this.state.addReminder){
-			button =  <button 
-						id = "addReminder" 
-						type="button" 
-						className="btn btn-success form-element" 
-						onClick = {() => {this.addReminder()}}>
-						Add Reminder
-					</button>
-		} else{
-			button =  <button 
-						id = "updateReminder" 
-						type="button" 
-						className="btn btn-default form-element" 
-						onClick = {() => {this.updateReminder()}}>
-						Update Reminder
-					</button>
-		}
 
-		return(
-			<div className="App">
-				<div className="title" >Reminder Pro</div>
-				<div className="form-inline">
-					<div className="form-group">
-						<input id = "reminder" className="form-control form-element" placeholder="I have to..." 
-						onChange = {(event)=>{this.setState({text:event.target.value})}} />
-						{button}
+		if(this.props.auth){
+			let button = null;
+			if(this.state.addReminder){
+				button =  <button 
+							id = "addReminder" 
+							type="button" 
+							className="btn btn-success form-element" 
+							onClick = {() => {this.addReminder()}}>
+							Add Reminder
+						</button>
+			} else{
+				button =  <button 
+							id = "updateReminder" 
+							type="button" 
+							className="btn btn-default form-element" 
+							onClick = {() => {this.updateReminder()}}>
+							Update Reminder
+						</button>
+			}
+
+			return(
+				<div className="App">
+					<button className="btn btn-danger" onClick= {()=>{this.setState({isAuthenticated: false})}}>Logout</button>
+					<div className="title" >Reminder Pro</div>
+					<div className="form-inline">
+						<div className="form-group">
+							<input id = "reminder" className="form-control form-element" placeholder="I have to..." 
+							onChange = {(event)=>{this.setState({text:event.target.value})}} />
+							{button}
+						</div>
 					</div>
+					<div>
+						<ReminderList 
+							resetToAddReminder = {() => {this.resetToAddReminder()}} 
+							reqReminderUpdate = {(id) => {this.showReminderToBeUpdated(id)}}/>
+					</div> 
 				</div>
-				<div>
-					<ReminderList 
-						resetToAddReminder = {() => {this.resetToAddReminder()}} 
-						reqReminderUpdate = {(id) => {this.showReminderToBeUpdated(id)}}/>
-				</div>
-			</div>
 
-			
-			)
-	}
+				
+				)
+			} else{
+
+				return(
+
+					<div>
+						<button className="btn btn-default" onClick={()=>{this.props.history.push('/signup')}}> Signup </button>
+						<Route path="/signup" component={Signup} {...this.props}/>
+					</div>
+					)
+			}			
+		} 
+		
 
 } 
 
@@ -101,16 +121,17 @@ class App extends Component{
 //reducers that return state of the app to the component's props
 function mapStateToProps(state){
 	return {
-		reminders: state
+		auth: state.auth,
+		reminders: state.reminders
 	}
 }
 
 //action creators given to the component's prototype to help trigger a change in state
 function mapDispatchToProps(dispatch){
 	return {
-		...bindActionCreators({addReminder: action.addReminder, updateReminder: action.updateReminder}, dispatch)};
+		...bindActionCreators({addReminder: action.addReminder, updateReminder: action.updateReminder, logUser: action.logUser}, dispatch)};
 }
 
 //Make component aware of the action and reducer
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 

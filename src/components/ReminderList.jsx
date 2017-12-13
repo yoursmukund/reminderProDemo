@@ -48,7 +48,7 @@ class ReminderList extends Component{
 //reducers that return state of the app to the component's props
 function mapStateToProps(state){
 	return {
-		reminders: state
+		reminders: state.reminders
 	}
 }
 
