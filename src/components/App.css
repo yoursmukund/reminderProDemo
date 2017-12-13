@@ -1,0 +1,26 @@
+.App{
+	text-align: center;
+}
+
+.title{
+	font-size: 30px;
+	margin: 30px;
+}
+
+.form-element{
+	margin: 10px;
+}
+
+.reminder-list-title{
+	font-size: 20px;
+	margin: 20px;
+}
+
+.reminder-list-item{
+	font-size: 15px;
+}
+
+.reminder-list-item-delete{
+	float: right;
+	margin-top: 3px; 
+}
