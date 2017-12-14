@@ -35,7 +35,7 @@ class ReminderList extends Component{
 
 	render(){
 		return(
-				<div className="container container-small col-md-4 col-md-offset-4">
+				<div className="container container-small col-md-8 col-md-offset-2">
 					<ListGroup className="reminder-list-title">List of reminders
 						{this.displayReminders()}
 					</ListGroup>

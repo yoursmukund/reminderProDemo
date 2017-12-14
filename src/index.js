@@ -4,12 +4,21 @@ import App from './components/App.jsx';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './reducers';
-import {BrowserRouter as Router, withRouter} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import { firebaseApp }  from './config';
 import action from './actions';
 
 const store = createStore(reducer);
 
+
+ReactDOM.render(
+	<Provider store={store}>
+		<Router>
+			<App />
+		</Router>
+	</Provider>, 
+document.getElementById("root")
+);
 
 
 firebaseApp.auth().onAuthStateChanged((user) => {
@@ -17,20 +26,11 @@ firebaseApp.auth().onAuthStateChanged((user) => {
 		store.dispatch(action.logUser(true));
 
 	} else{
-
 		store.dispatch(action.logUser(false));
 	}
 });
 
 
-ReactDOM.render(
-	<Provider store={store}>
-		<Router>
-			<App/>
-		</Router>
-	</Provider>, 
-document.getElementById("root")
-);
 
 
 

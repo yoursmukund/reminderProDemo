@@ -4,14 +4,9 @@ import { bindActionCreators } from 'redux';
 import action from '../actions';
 import ReminderList  from './ReminderList.jsx';
 import "./App.css";
-import {
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router-dom';
+import { Route,Link, withRouter } from 'react-router-dom';
+import { firebaseApp }  from '../config';
 import Signup from './Signup.jsx';
-import Signin from './Signin.jsx';
 
 class App extends Component{
 
@@ -54,10 +49,17 @@ class App extends Component{
 		});
 	}
 
+	logOut(){
+		firebaseApp.auth().signOut();
+	}
+
+	addReminderToState(text){
+		this.setState({text:text});
+	}
+
 
 
 	render(){
-
 
 		if(this.props.auth){
 			let button = null;
@@ -80,34 +82,35 @@ class App extends Component{
 			}
 
 			return(
-				<div className="App">
-					<button className="btn btn-danger" onClick= {()=>{this.setState({isAuthenticated: false})}}>Logout</button>
-					<div className="title" >Reminder Pro</div>
-					<div className="form-inline">
-						<div className="form-group">
-							<input id = "reminder" className="form-control form-element" placeholder="I have to..." 
-							onChange = {(event)=>{this.setState({text:event.target.value})}} />
-							{button}
+				<div className="container card-app">
+					<button className="btn btn-danger logout" onClick= {()=>{this.logOut(false)}}>Logout</button>
+					<div className="App">
+						<div className="title">Reminder Pro</div>
+						<div className="form-inline">
+							<div className="form-group">
+								<input id = "reminder" className="form-control form-element" placeholder="I have to..." 
+								onChange = {(event)=>{this.addReminderToState(event.target.value)}} />
+								{button}
+							</div>
 						</div>
+						<div>
+							<ReminderList 
+								resetToAddReminder = {() => {this.resetToAddReminder()}} 
+								reqReminderUpdate = {(id) => {this.showReminderToBeUpdated(id)}}/>
+						</div> 
 					</div>
-					<div>
-						<ReminderList 
-							resetToAddReminder = {() => {this.resetToAddReminder()}} 
-							reqReminderUpdate = {(id) => {this.showReminderToBeUpdated(id)}}/>
-					</div> 
 				</div>
 
 				
 				)
 			} else{
-
+				
 				return(
-
-					<div>
-						<button className="btn btn-default" onClick={()=>{this.props.history.push('/signup')}}> Signup </button>
-						<Route path="/signup" component={Signup} {...this.props}/>
+					<div className="card">
+						<Signup/>
 					</div>
 					)
+				
 			}			
 		} 
 		

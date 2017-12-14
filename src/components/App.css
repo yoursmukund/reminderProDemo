@@ -24,3 +24,26 @@
 	float: right;
 	margin-top: 3px; 
 }
+
+.logout{
+	float: right;
+	margin-top: 2px;
+}
+
+.card{
+	margin-top: 50px;
+	margin-left: 500px;
+	padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+
+.card-app{
+	margin-top: 50px;
+	margin-left: 400px;
+	padding: 20px;
+    width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
