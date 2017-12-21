@@ -4,7 +4,6 @@ import App from './components/App.jsx';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './reducers';
-import {BrowserRouter as Router} from 'react-router-dom';
 import { firebaseApp }  from './config';
 import action from './actions';
 
@@ -13,9 +12,7 @@ const store = createStore(reducer);
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router>
-			<App />
-		</Router>
+		<App />
 	</Provider>, 
 document.getElementById("root")
 );

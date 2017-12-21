@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { firebaseApp }  from '../config';
+import AuthService from '../services/authService';
 
 class Signin extends Component{
 	constructor(props){
@@ -12,9 +12,8 @@ class Signin extends Component{
 	}
 
 	signIn(){
-		firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((error)=>{
-			this.setState({error: error.toString()});
-		});
+		var authService = new AuthService();
+		var authState = authService.signIn(this.state.email, this.state.password);
 	}
 
 	setEmail(email){

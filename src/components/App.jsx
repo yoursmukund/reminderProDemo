@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import action from '../actions';
 import ReminderList  from './ReminderList.jsx';
 import "./App.css";
-import { Route,Link, withRouter } from 'react-router-dom';
 import { firebaseApp }  from '../config';
 import Signup from './Signup.jsx';
 
@@ -85,7 +84,7 @@ class App extends Component{
 				<div className="container card-app">
 					<button className="btn btn-danger logout" onClick= {()=>{this.logOut(false)}}>Logout</button>
 					<div className="App">
-						<div className="title">Reminder Pro</div>
+						<div className="title">Reminders</div>
 						<div className="form-inline">
 							<div className="form-group">
 								<input id = "reminder" className="form-control form-element" placeholder="I have to..." 
@@ -136,5 +135,5 @@ function mapDispatchToProps(dispatch){
 }
 
 //Make component aware of the action and reducer
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 

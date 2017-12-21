@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import { firebaseApp }  from '../config';
 import { connect } from 'react-redux';
-import {
-  Route,
-  Link,
-  withRouter
-} from 'react-router-dom';
 import Signin from './Signin';
 
 class Signup extends Component{
@@ -79,4 +74,4 @@ function mapStateToProps(state){
 }
 
 //Make component aware of the action and reducer
-export default withRouter(connect(mapStateToProps, null)(Signup));
+export default connect(mapStateToProps, null)(Signup);
