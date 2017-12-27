@@ -8,13 +8,13 @@ var APP_DIR = path.resolve(__dirname, 'src');
 
 var config = { 
 
-entry: APP_DIR + '/index.jsx', 
+  entry: APP_DIR + '/index.jsx', 
 
-output: { 
+  output: { 
 
-path: BUILD_DIR, 
+  path: BUILD_DIR, 
 
-filename: 'bundle.js' 
+  filename: 'bundle.js' 
 
 },
 resolve: {
@@ -32,7 +32,9 @@ resolve: {
           presets: ['react', 'es2015']
         }
       },
-     { test: /\.css$/, loader: "style-loader!css-loader" }
+     { test: /\.css$/, 
+      loader: "style-loader!css-loader"
+    }
     ]
   } 
 
