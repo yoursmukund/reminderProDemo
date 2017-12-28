@@ -5,23 +5,24 @@ import action from '../actions';
 import "./App.css";
 import { firebaseApp }  from '../config';
 import Signup from './Signup.jsx';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import io from 'socket.io-client';
+
 
 
 class App extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			labels: [],
 			data: []
 		}
 
 		this.data = {
-			labels: [],
+			labels: ['Now', '1m ago', '2m ago'],
 			datasets: [
 			{	
 				data: [],
-				label: 'Node level statistics',
+				label: 'Node Statistics for 172.30.56.60',
 				fill: false,
 				lineTension: 0.1,
 				backgroundColor: 'rgba(75,192,192,0.4)',
@@ -49,17 +50,23 @@ class App extends Component{
 	}
 
 	getData(){
+		const socket = io("http://localhost:3001");
 		setInterval(()=>{
-			this.setState({
-			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], 
-			data: [Math.floor(Math.random()*100), 59, 80, 81, 56, 55, 40]});
-		}, 5000);
+		// 	this.setState({
+		// 	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], 
+		// 	data: [Math.floor(Math.random()*100), 59, 80, 81, 56, 55, 40]});
+		// }, 5000);
+
+		// var socket = io();
+		// setInterval(()=>{
+
+			this.setState({data: []});
+		}, 12000);
 		
 	}
 
 	composeChartObject(){
 		this.data.datasets[0].data = this.state.data;
-		this.data.labels = this.state.labels;
 		return this.data;
 	}
 
