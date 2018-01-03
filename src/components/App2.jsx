@@ -14,11 +14,12 @@ class App extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			data: []
+			data: [],
+			labels: []
 		}
 
 		this.data = {
-			labels: ['Now', '1m ago', '2m ago'],
+			labels: [],
 			datasets: [
 			{	
 				data: [],
@@ -50,23 +51,33 @@ class App extends Component{
 	}
 
 	getData(){
+		var self = this;
 		const socket = io("http://localhost:3001");
+		socket.on('connect', function(){
+			socket.on('graphDataResponse', function(data){
+				var dates = [];
+				var readiops = [];
+				for(var i=0; i<data.length; i++){
+					console.log("data received ", data[i]);
+					readiops.push(data[i].readiops);
+					dates.push(data[i].timestamp);
+				}
+				self.setState({data: readiops, labels: dates});
+			});
 		setInterval(()=>{
-		// 	this.setState({
-		// 	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], 
-		// 	data: [Math.floor(Math.random()*100), 59, 80, 81, 56, 55, 40]});
-		// }, 5000);
-
-		// var socket = io();
-		// setInterval(()=>{
-
-			this.setState({data: []});
-		}, 12000);
+			var currentDate = Date.now();
+			var oldDate = currentDate - 120000;
+			socket.emit('getGraphData', {currentDate: currentDate, oldDate: oldDate});
+		}, 120000);
+		});
+		
 		
 	}
 
 	composeChartObject(){
+		console.log("state ", this.data);
 		this.data.datasets[0].data = this.state.data;
+		this.data.labels = this.state.labels;
 		return this.data;
 	}
 
